@@ -1,0 +1,8 @@
+{
+  "name": "Shidic Transporters",
+  "description": "Safe and reliable transport services including airport pickups, school runs, business trips, and general travel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
