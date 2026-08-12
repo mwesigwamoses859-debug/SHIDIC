@@ -14,11 +14,17 @@ import {
 import { Reveal } from "./Reveal";
 import { useLanguage } from "../context/LanguageContext";
 import { LiveTracker } from "./LiveTracker";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../lib/firebase";
+import { CheckCircle2 } from "lucide-react";
 
 export function BookingSection() {
   const { t } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"ride" | "delivery">("ride");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [bookingId, setBookingId] = useState<string | null>(null);
   const [selectedVehicle, setSelectedVehicle] = useState<
     "boda" | "standard" | "vip"
   >("standard");
@@ -100,17 +106,38 @@ export function BookingSection() {
 
               <form
                 className="p-6 md:p-8 space-y-6 flex-grow flex flex-col"
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  const formData = new FormData(e.currentTarget);
-                  const data = Object.fromEntries(formData.entries());
+                  setIsSubmitting(true);
+                  try {
+                    const formData = new FormData(
+                      e.currentTarget as HTMLFormElement,
+                    );
+                    const data = Object.fromEntries(formData.entries());
 
-                  const message = `Hello Shidic Transporters! I need a ${activeTab.toUpperCase()}.%0A%0A*Name:* ${data.name}%0A*Phone:* ${data.phone}%0A*Pickup:* ${data.pickup}%0A*Dropoff:* ${data.dropoff}%0A*Vehicle Type:* ${selectedVehicle.toUpperCase()}%0A*Date:* ${data.date}%0A*Time:* ${data.time}`;
+                    const docRef = await addDoc(collection(db, "bookings"), {
+                      type: activeTab,
+                      status: "pending",
+                      name: data.name,
+                      phone: data.phone,
+                      pickup: data.pickup,
+                      dropoff: data.dropoff,
+                      date: data.date,
+                      time: data.time,
+                      vehicleType:
+                        activeTab === "ride" ? selectedVehicle : null,
+                      createdAt: serverTimestamp(),
+                    });
 
-                  window.open(
-                    `https://wa.me/256757474950?text=${message}`,
-                    "_blank",
-                  );
+                    setBookingId(docRef.id.slice(0, 8).toUpperCase());
+                    setIsSuccess(true);
+                    (e.target as HTMLFormElement).reset();
+                  } catch (error) {
+                    console.error("Error adding booking: ", error);
+                    alert("Failed to submit booking. Please try again.");
+                  } finally {
+                    setIsSubmitting(false);
+                  }
                 }}
               >
                 {/* Personal Info */}
@@ -206,9 +233,10 @@ export function BookingSection() {
                 <div className="mt-auto pt-6">
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="w-full bg-black text-white font-bold text-lg py-4 rounded-xl hover:bg-gray-800 transition-colors shadow-lg hover:shadow-xl active:scale-[0.98]"
                   >
-                    {t("book.submit")}
+                    {isSubmitting ? "Processing..." : t("book.submit")}
                   </button>
                 </div>
               </form>

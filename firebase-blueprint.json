@@ -1,0 +1,29 @@
+{
+  "collections": [
+    {
+      "name": "bookings",
+      "rules": [
+        {
+          "allow": ["read", "create"],
+          "condition": "true"
+        }
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "status": { "type": "string" },
+          "name": { "type": "string" },
+          "phone": { "type": "string" },
+          "pickup": { "type": "string" },
+          "dropoff": { "type": "string" },
+          "date": { "type": "string" },
+          "time": { "type": "string" },
+          "vehicleType": { "type": "string" },
+          "createdAt": { "type": "timestamp" }
+        },
+        "required": ["type", "status", "name", "phone", "pickup", "dropoff", "createdAt"]
+      }
+    }
+  ]
+}
