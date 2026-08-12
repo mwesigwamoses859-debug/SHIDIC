@@ -1,6 +1,7 @@
 import { Shield, Wrench, Award, CheckCircle } from 'lucide-react';
 import { Reveal } from '../components/Reveal';
 import { useLanguage } from '../context/LanguageContext';
+import { LocalTrafficUpdates } from '../components/LocalTrafficUpdates';
 
 export function Safety() {
   const { t } = useLanguage();
@@ -20,6 +21,13 @@ export function Safety() {
             {t('safety.desc')}
           </p>
         </Reveal>
+
+        {/* Local Traffic Updates powered by Gemini */}
+        <div className="mb-16">
+          <Reveal direction="up">
+            <LocalTrafficUpdates />
+          </Reveal>
+        </div>
 
         {/* Info Blocks */}
         <div className="grid md:grid-cols-2 gap-8 mb-20">

@@ -21,7 +21,7 @@ export function Hero() {
           className="flex flex-col items-start justify-center space-y-8"
         >
           <div className="space-y-4">
-            <h1 className="text-5xl lg:text-7xl font-black tracking-tight leading-[1.1] text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tight leading-[1.1] text-white">
               Go anywhere with <span className="text-[#FFC700]">SHIDIC</span>
             </h1>
             <p className="text-xl text-gray-400 font-medium max-w-lg leading-relaxed">

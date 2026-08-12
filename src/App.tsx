@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
 import { LanguageProvider } from "./context/LanguageContext";
+import { AuthProvider } from "./context/AuthContext";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { ScrollToTop } from "./components/ScrollToTop";
@@ -15,6 +16,8 @@ import { Services } from "./pages/Services";
 import { Book } from "./pages/Book";
 import { Contact } from "./pages/Contact";
 import { Safety } from "./pages/Safety";
+import { Admin } from "./pages/Admin";
+import { Driver } from "./pages/Driver";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -71,6 +74,22 @@ function AnimatedRoutes() {
             </PageTransition>
           }
         />
+        <Route
+          path="/admin"
+          element={
+            <PageTransition>
+              <Admin />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/driver"
+          element={
+            <PageTransition>
+              <Driver />
+            </PageTransition>
+          }
+        />
       </Routes>
     </AnimatePresence>
   );
@@ -78,6 +97,7 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
+    <AuthProvider>
     <LanguageProvider>
       <BrowserRouter>
         <div className="min-h-screen bg-black font-sans selection:bg-[#FFC700] selection:text-black scroll-smooth">
@@ -90,5 +110,6 @@ export default function App() {
         </div>
       </BrowserRouter>
     </LanguageProvider>
+    </AuthProvider>
   );
 }

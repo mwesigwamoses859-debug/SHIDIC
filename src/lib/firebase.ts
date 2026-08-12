@@ -10,5 +10,5 @@ const firebaseConfig = {
   messagingSenderId: "943697172862"
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, "ai-studio-shidictransporte-e0dd38bb-077a-4de8-9d0d-f178a83e3089");

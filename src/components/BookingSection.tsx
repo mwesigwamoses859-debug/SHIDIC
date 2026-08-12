@@ -16,7 +16,9 @@ import { useLanguage } from "../context/LanguageContext";
 import { LiveTracker } from "./LiveTracker";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../lib/firebase";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Calculator } from "lucide-react";
+import { TransportHistory } from "./TransportHistory";
+import { LocationInsights } from "./LocationInsights";
 
 export function BookingSection() {
   const { t } = useLanguage();
@@ -25,6 +27,10 @@ export function BookingSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [bookingId, setBookingId] = useState<string | null>(null);
+  const [distance, setDistance] = useState<number>(5);
+  const [pickup, setPickup] = useState("");
+  const [dropoff, setDropoff] = useState("");
+  const [estimatedPrice, setEstimatedPrice] = useState<number>(0);
   const [selectedVehicle, setSelectedVehicle] = useState<
     "boda" | "standard" | "vip"
   >("standard");
@@ -35,6 +41,30 @@ export function BookingSection() {
     }, 1500);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    let baseRate = 0;
+    let perKm = 0;
+
+    if (activeTab === "ride") {
+      if (selectedVehicle === "boda") {
+        baseRate = 2000;
+        perKm = 1500;
+      } else if (selectedVehicle === "standard") {
+        baseRate = 5000;
+        perKm = 3000;
+      } else if (selectedVehicle === "vip") {
+        baseRate = 10000;
+        perKm = 6000;
+      }
+    } else {
+      // delivery
+      baseRate = 3000;
+      perKm = 2000;
+    }
+
+    setEstimatedPrice(baseRate + distance * perKm);
+  }, [distance, activeTab, selectedVehicle]);
 
   const vehicles = [
     {
@@ -130,6 +160,18 @@ export function BookingSection() {
                     });
 
                     setBookingId(docRef.id.slice(0, 8).toUpperCase());
+
+                    // Save to local history
+                    const savedIds = JSON.parse(
+                      localStorage.getItem("shidic_booking_ids") || "[]",
+                    );
+                    if (!savedIds.includes(docRef.id)) {
+                      savedIds.push(docRef.id);
+                      localStorage.setItem(
+                        "shidic_booking_ids",
+                        JSON.stringify(savedIds),
+                      );
+                    }
                     setIsSuccess(true);
                     (e.target as HTMLFormElement).reset();
                   } catch (error) {
@@ -173,6 +215,8 @@ export function BookingSection() {
                     <input
                       required
                       name="pickup"
+                      value={pickup}
+                      onChange={(e) => setPickup(e.target.value)}
                       type="text"
                       className="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl focus:border-black focus:ring-1 focus:ring-black outline-none transition-all font-medium"
                       placeholder={t("book.pickup")}
@@ -180,12 +224,17 @@ export function BookingSection() {
                     <input
                       required
                       name="dropoff"
+                      value={dropoff}
+                      onChange={(e) => setDropoff(e.target.value)}
                       type="text"
                       className="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl focus:border-black focus:ring-1 focus:ring-black outline-none transition-all font-medium"
                       placeholder={t("book.dropoff")}
                     />
                   </div>
                 </div>
+
+                {/* AI Route Insights */}
+                <LocationInsights pickup={pickup} dropoff={dropoff} />
 
                 {/* Schedule */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -230,7 +279,38 @@ export function BookingSection() {
                   </div>
                 )}
 
-                <div className="mt-auto pt-6">
+                {/* Price Calculator */}
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 mb-2">
+                  <div className="flex justify-between items-center mb-4">
+                    <h4 className="font-bold text-gray-900 flex items-center gap-2">
+                      <Calculator size={18} className="text-[#E60000]" />{" "}
+                      Estimated Cost
+                    </h4>
+                    <span className="font-black text-xl text-gray-900">
+                      {estimatedPrice.toLocaleString()} UGX
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm font-medium text-gray-600 mb-1">
+                      <span>Est. Distance</span>
+                      <span>{distance} km</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="1"
+                      max="100"
+                      value={distance}
+                      onChange={(e) => setDistance(Number(e.target.value))}
+                      className="w-full accent-black h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                    />
+                    <div className="flex justify-between text-[10px] text-gray-400 font-bold uppercase mt-1">
+                      <span>1 km</span>
+                      <span>100 km</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-auto pt-4">
                   <button
                     type="submit"
                     disabled={isSubmitting}
@@ -316,6 +396,9 @@ export function BookingSection() {
           )}
         </Reveal>
       </div>
+
+      {/* Transport History Section */}
+      <TransportHistory />
     </div>
   );
 }
