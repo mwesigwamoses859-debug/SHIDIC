@@ -9,6 +9,7 @@ import {
   Car,
   Bike,
   Package,
+  FileText,
 } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { useLanguage } from "../context/LanguageContext";
@@ -225,6 +226,45 @@ export function BookingSection() {
             <div className="bg-gray-200 rounded-3xl h-full min-h-[400px] animate-pulse"></div>
           ) : (
             <>
+              {/* Trip Summary Card */}
+              <div className="bg-white border border-gray-200 rounded-3xl p-5 shadow-sm flex flex-col gap-3">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+                  <h4 className="font-bold text-gray-900 flex items-center gap-2">
+                    <FileText size={18} className="text-[#FFC700]" /> Trip
+                    Summary
+                  </h4>
+                  <span className="bg-green-100 text-green-700 font-bold text-[10px] px-2 py-1 rounded-full uppercase tracking-wide">
+                    Confirmed
+                  </span>
+                </div>
+                <div className="grid grid-cols-3 gap-2 divide-x divide-gray-100">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-1">
+                      Booking ID
+                    </span>
+                    <span className="font-black text-gray-900 text-sm">
+                      #SHD-8492
+                    </span>
+                  </div>
+                  <div className="flex flex-col pl-3">
+                    <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-1">
+                      Driver
+                    </span>
+                    <span className="font-black text-gray-900 text-sm">
+                      Moses K.
+                    </span>
+                  </div>
+                  <div className="flex flex-col pl-3">
+                    <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-1">
+                      Plate
+                    </span>
+                    <span className="font-black text-gray-900 text-sm">
+                      UBK 456
+                    </span>
+                  </div>
+                </div>
+              </div>
+
               {/* Live Tracker Simulation */}
               <div className="flex-grow min-h-[400px]">
                 <LiveTracker />
