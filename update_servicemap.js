@@ -1,10 +1,23 @@
-import { useState } from "react";
+import fs from 'fs';
+
+const newContent = `import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Reveal } from "./Reveal";
 import { useLanguage } from "../context/LanguageContext";
 import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
+// Fix Leaflet's default icon issue
+import iconUrl from 'leaflet/dist/images/marker-icon.png';
+import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
+import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+});
 
 const CITIES = [
   { id: "kampala", nameKey: "map.kampala", lat: 0.347596, lon: 32.582520, isHub: true, status: "Available" },
@@ -22,51 +35,30 @@ const CITIES = [
   { id: "lira", nameKey: "map.lira", lat: 2.2499, lon: 32.8999, status: "Limited" },
 ];
 
-const createCustomIcon = (isHub: boolean, status: string) => {
-  const color = isHub ? 'bg-[#FFC700]' : (status === 'Available' ? 'bg-[#E60000]' : 'bg-gray-500');
-  const size = isHub ? 'w-6 h-6' : 'w-4 h-4';
-  const pulse = isHub ? `<div class="absolute inset-0 rounded-full ${color} animate-ping opacity-75"></div>` : '';
-  
-  return L.divIcon({
-    className: 'custom-leaflet-icon',
-    html: `
-      <div class="relative flex items-center justify-center ${size}">
-        ${pulse}
-        <div class="relative z-10 rounded-full ${size} ${color} border-[3px] border-white shadow-[0_0_15px_rgba(0,0,0,0.2)]"></div>
-      </div>
-    `,
-    iconSize: isHub ? [24, 24] : [16, 16],
-    iconAnchor: isHub ? [12, 12] : [8, 8],
-  });
-};
-
 export function ServiceMap() {
   const { t } = useLanguage();
   const kampala = CITIES.find(c => c.id === 'kampala')!;
 
   return (
-    <div className="bg-white py-24 px-6 overflow-hidden relative border-y border-gray-100 shadow-[0_0_40px_rgba(0,0,0,0.05)] z-20">
+    <div className="bg-white/85 backdrop-blur-md py-24 px-6 overflow-hidden relative">
       <div className="max-w-7xl mx-auto relative z-10">
-        <Reveal direction="up" className="text-center mb-16">
-          <h2 className="text-gray-900 text-3xl md:text-5xl font-black uppercase tracking-tight">
+        <Reveal direction="up" className="text-center mb-12">
+          <h2 className="text-slate-900 text-3xl md:text-4xl font-black uppercase tracking-tight">
             {t("map.title")}
           </h2>
           <div className="w-16 h-2 bg-[#E60000] mx-auto mt-6"></div>
-          <p className="text-gray-600 font-medium mt-6 text-lg max-w-2xl mx-auto">
+          <p className="text-slate-600 font-medium mt-6 text-lg max-w-2xl mx-auto">
             {t("map.desc")}
           </p>
         </Reveal>
 
         <Reveal direction="up" delay={200}>
-          <div className="relative w-full max-w-5xl mx-auto bg-gray-50 rounded-[2.5rem] border-[4px] border-gray-200 p-2 shadow-xl overflow-hidden h-[500px] md:h-[650px]">
+          <div className="relative w-full max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200 p-2 shadow-2xl overflow-hidden h-[500px] md:h-[600px]">
             <MapContainer 
               center={[1.3733, 32.2903]} // Center of Uganda
-              zoom={6.5} 
-              style={{ height: '100%', width: '100%', borderRadius: '2rem', backgroundColor: '#f9fafb' }}
+              zoom={6} 
+              style={{ height: '100%', width: '100%', borderRadius: '1.5rem' }}
               scrollWheelZoom={false}
-              maxBounds={[[-1.5, 29.5], [4.5, 35.0]]}
-              maxBoundsViscosity={1.0}
-              minZoom={6}
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -76,26 +68,22 @@ export function ServiceMap() {
               {/* Draw Lines from Kampala to everywhere */}
               {CITIES.filter(c => !c.isHub).map(city => (
                 <Polyline 
-                  key={`line-${city.id}`}
+                  key={\`line-\${city.id}\`}
                   positions={[[kampala.lat, kampala.lon], [city.lat, city.lon]]} 
-                  color={city.status === "Available" ? "#E60000" : "#94a3b8"} 
-                  weight={2} 
-                  dashArray="6, 8"
-                  opacity={0.8}
+                  color={city.status === "Available" ? "#E60000" : "#64748b"} 
+                  weight={3} 
+                  dashArray="10, 10"
+                  opacity={0.6}
                 />
               ))}
 
               {/* Draw Markers */}
               {CITIES.map(city => (
-                <Marker 
-                  key={`marker-${city.id}`} 
-                  position={[city.lat, city.lon]}
-                  icon={createCustomIcon(city.isHub || false, city.status)}
-                >
-                  <Popup className="custom-popup">
-                    <div className="font-bold text-center p-1">
-                      <p className="text-lg text-slate-900">{t(city.nameKey) || city.nameKey}</p>
-                      <p className={`text-xs font-black uppercase tracking-wider ${city.status === 'Available' ? 'text-green-600' : 'text-orange-500'}`}>
+                <Marker key={\`marker-\${city.id}\`} position={[city.lat, city.lon]}>
+                  <Popup>
+                    <div className="font-bold text-center">
+                      <p className="text-lg">{t(city.nameKey) || city.nameKey}</p>
+                      <p className={\`text-xs uppercase \${city.status === 'Available' ? 'text-green-600' : 'text-orange-500'}\`}>
                         {city.status}
                       </p>
                     </div>
@@ -106,22 +94,9 @@ export function ServiceMap() {
           </div>
         </Reveal>
       </div>
-      
-      {/* Global styles for the leaflet popup */}
-      <style>{`
-        .custom-popup .leaflet-popup-content-wrapper {
-          border-radius: 1rem;
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-          border: 1px solid #f1f5f9;
-        }
-        .custom-popup .leaflet-popup-tip {
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .custom-leaflet-icon {
-          background: transparent;
-          border: none;
-        }
-      `}</style>
     </div>
   );
 }
+`;
+
+fs.writeFileSync('src/components/ServiceMap.tsx', newContent);

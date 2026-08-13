@@ -7,7 +7,8 @@ export function Hero() {
   const { t } = useLanguage();
 
   return (
-    <div className="bg-[#111111] text-white overflow-hidden relative min-h-[85vh] flex items-center">
+    <div className="text-white overflow-hidden relative min-h-[85vh] flex items-center bg-cover bg-center" style={{ backgroundImage: "url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Urban_Rising%2C_KAMPALA%2C_Uganda.jpg/1280px-Urban_Rising%2C_KAMPALA%2C_Uganda.jpg')" }}>
+      <div className="absolute inset-0 bg-black/70 z-0"></div>
       {/* Abstract background elements */}
       <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
         <div className="absolute top-10 right-10 w-96 h-96 bg-[#FFC700] rounded-full blur-3xl"></div>
@@ -83,7 +84,7 @@ export function Hero() {
           {/* Main Visual */}
           <div className="relative w-full aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border-8 border-zinc-900 bg-zinc-800 z-10">
             <img
-              src="https://images.unsplash.com/photo-1616455579100-2ceaa4eb2d37?auto=format&fit=crop&q=80&w=1200"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/2018-2023_Toyota_Alphard_X.jpg/1280px-2018-2023_Toyota_Alphard_X.jpg"
               alt="Transport"
               className="w-full h-full object-cover"
             />

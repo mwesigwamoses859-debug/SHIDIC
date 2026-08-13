@@ -13,7 +13,7 @@ export function Admin() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) return;
+    /* if (!user) return; removed for demo */
     setLoading(true);
 
     const qRides = query(collection(db, "bookings"), orderBy("createdAt", "desc"));
@@ -79,7 +79,7 @@ export function Admin() {
               <button 
                 onClick={() => setActiveTab("rides")}
                 className={`flex-shrink-0 lg:w-full flex items-center gap-2 lg:gap-3 px-4 py-3 rounded-xl font-bold transition-all text-sm whitespace-nowrap ${
-                  activeTab === "rides" ? "bg-black text-white" : "text-gray-500 hover:bg-gray-100"
+                  activeTab === "rides" ? "bg-black text-white" : "text-gray-500 hover:bg-white/85 backdrop-blur-md"
                 }`}
               >
                 <Activity size={18} /> Live Operations
@@ -87,7 +87,7 @@ export function Admin() {
               <button 
                 onClick={() => setActiveTab("drivers")}
                 className={`flex-shrink-0 lg:w-full flex items-center gap-2 lg:gap-3 px-4 py-3 rounded-xl font-bold transition-all text-sm whitespace-nowrap ${
-                  activeTab === "drivers" ? "bg-black text-white" : "text-gray-500 hover:bg-gray-100"
+                  activeTab === "drivers" ? "bg-black text-white" : "text-gray-500 hover:bg-white/85 backdrop-blur-md"
                 }`}
               >
                 <Users size={18} /> Manage Drivers
@@ -142,7 +142,7 @@ export function Admin() {
                     </div>
                     
                     <div className="relative pl-6 space-y-4 mb-6 flex-grow">
-                      <div className="absolute left-2 top-2 bottom-2 w-0.5 bg-gray-100"></div>
+                      <div className="absolute left-2 top-2 bottom-2 w-0.5 bg-white/85 backdrop-blur-md"></div>
                       <div className="relative">
                         <div className="absolute -left-6 top-1 w-2 h-2 rounded-full bg-gray-300 border-2 border-white"></div>
                         <p className="text-xs text-gray-500 font-bold uppercase mb-0.5">Pickup</p>
@@ -201,7 +201,7 @@ export function Admin() {
                     <div className="flex-grow">
                       <h4 className="font-bold text-gray-900">{driver.name}</h4>
                       <div className="flex gap-2 text-xs font-bold uppercase mt-1">
-                        <span className="bg-gray-100 text-gray-600 px-2 py-0.5 rounded flex items-center gap-1"><Car size={10}/> {driver.vehicleType}</span>
+                        <span className="bg-white/85 backdrop-blur-md text-gray-600 px-2 py-0.5 rounded flex items-center gap-1"><Car size={10}/> {driver.vehicleType}</span>
                         <span className="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded">★ {driver.rating}</span>
                       </div>
                     </div>

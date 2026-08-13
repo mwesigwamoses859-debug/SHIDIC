@@ -7,11 +7,15 @@ export function AboutSection() {
   const { t } = useLanguage();
 
   return (
-    <div className="bg-white py-20 px-6" id="about">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+    <div className="bg-white/85 backdrop-blur-md py-20 px-6" id="about">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-12 items-center">
+        {/* Decorative Image */}
+        <Reveal direction="left" className="hidden lg:block h-full min-h-[400px] w-full">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Kampala_traffic.jpg/800px-Kampala_traffic.jpg" alt="Professional Driver" className="w-full h-full object-cover rounded-3xl shadow-xl" />
+        </Reveal>
         
         {/* About Text */}
-        <Reveal direction="left" className="space-y-6">
+        <Reveal direction="up" className="space-y-6">
           <h2 className="text-black text-4xl font-black uppercase tracking-tight">{t('about.title')}</h2>
           <div className="w-16 h-2 bg-[#E60000]"></div>
           <p className="text-gray-600 text-lg leading-relaxed font-medium">

@@ -13,7 +13,7 @@ export function Services() {
   ];
 
   return (
-    <main className="pt-24 pb-20 bg-white min-h-screen">
+    <main className="pt-24 pb-20 bg-white/85 backdrop-blur-md min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
         <Reveal direction="up">
           <div className="mb-12">

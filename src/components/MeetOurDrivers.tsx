@@ -28,7 +28,7 @@ export function MeetOurDrivers() {
   }, []);
 
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24 bg-white/85 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6">
         <Reveal direction="up" className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-4xl font-black text-gray-900 mb-6">Meet Our Drivers</h2>
@@ -50,23 +50,22 @@ export function MeetOurDrivers() {
                 <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-4 border-gray-50">
                   <img src={driver.image} alt={driver.name} className="w-full h-full object-cover" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-1">{driver.name}</h3>
-                <div className="flex items-center gap-1 text-[#FFC700] mb-4">
+                <div className="flex items-center gap-1 text-[#FFC700] mb-4 mt-2">
                   <Star size={16} fill="currentColor" />
                   <span className="font-bold text-gray-900 text-sm">{driver.rating}</span>
                 </div>
                 <div className="w-full space-y-2 mt-auto">
-                  <div className="flex justify-between items-center bg-gray-50 px-4 py-2 rounded-xl text-sm">
+                  <div className="flex justify-between items-center bg-white/85 backdrop-blur-md px-4 py-2 rounded-xl text-sm">
                     <span className="text-gray-500 font-medium">Experience</span>
                     <span className="font-bold text-gray-900">{driver.experience}</span>
                   </div>
-                  <div className="flex justify-between items-center bg-gray-50 px-4 py-2 rounded-xl text-sm">
+                  <div className="flex justify-between items-center bg-white/85 backdrop-blur-md px-4 py-2 rounded-xl text-sm">
                     <span className="text-gray-500 font-medium">Vehicle</span>
                     <span className="font-bold text-gray-900 capitalize flex items-center gap-1">
                       <Car size={14} /> {driver.vehicleType}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center bg-gray-50 px-4 py-2 rounded-xl text-sm">
+                  <div className="flex justify-between items-center bg-white/85 backdrop-blur-md px-4 py-2 rounded-xl text-sm">
                     <span className="text-gray-500 font-medium">Trips</span>
                     <span className="font-bold text-gray-900 flex items-center gap-1">
                       <ShieldCheck size={14} className="text-green-500" /> {driver.trips}

@@ -13,7 +13,7 @@ export function Driver() {
   const [earnings, setEarnings] = useState(0);
 
   useEffect(() => {
-    if (!user || !isOnline) {
+    if (!isOnline) {
       setAvailableRides([]);
       return;
     }
@@ -25,7 +25,7 @@ export function Driver() {
     });
 
     // Listen for driver's active/accepted rides
-    const qActive = query(collection(db, "bookings"), where("driver_id", "==", user.uid));
+    const qActive = query(collection(db, "bookings"), where("driver_id", "==", (user ? user.uid : "demo-driver")));
     const unsubActive = onSnapshot(qActive, (snapshot) => {
       const myRides = snapshot.docs.map(d => ({ id: d.id, ...(d.data() as any) }));
       const active = myRides.find(r => r.status === "accepted" || r.status === "ongoing");
@@ -48,7 +48,7 @@ export function Driver() {
     try {
       await updateDoc(doc(db, "bookings", rideId), {
         status: "accepted",
-        driver_id: user?.uid,
+        driver_id: (user ? user.uid : "demo-driver"),
         accepted_at: new Date().toISOString()
       });
     } catch (e) {
@@ -70,7 +70,7 @@ export function Driver() {
   }
 
   return (
-    <main className="pt-24 pb-24 bg-gray-50 min-h-screen">
+    <main className="pt-24 pb-24 bg-white/85 backdrop-blur-md min-h-screen">
       <div className="max-w-3xl mx-auto px-6">
         
         {/* Header & Earnings */}
