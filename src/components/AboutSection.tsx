@@ -11,7 +11,7 @@ export function AboutSection() {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-12 items-center">
         {/* Decorative Image */}
         <Reveal direction="left" className="hidden lg:block h-full min-h-[400px] w-full">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Kampala_traffic.jpg/800px-Kampala_traffic.jpg" alt="Professional Driver" className="w-full h-full object-cover rounded-3xl shadow-xl" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Urban_Rising%2C_KAMPALA%2C_Uganda.jpg" alt="Professional Driver" className="w-full h-full object-cover rounded-3xl shadow-xl" />
         </Reveal>
         
         {/* About Text */}
