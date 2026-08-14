@@ -1,6 +1,7 @@
 {
-  "name": "shidic",
+  "name": "shidic2",
   "compatibility_date": "2026-08-14",
+  "main": "dist/server.cjs",
   "assets": {
     "directory": "./dist"
   }
