@@ -30,8 +30,8 @@ export function Contact() {
                 <Phone size={32} className="text-black" />
               </div>
               <h3 className="text-xl font-black mb-2">{t('contact.call')}</h3>
-              <p className="text-gray-600 font-medium">+256 757474950</p>
-              <p className="text-gray-600 font-medium">+256 777474950</p>
+              <p className="text-gray-600 font-medium">0757474950</p>
+              <p className="text-gray-600 font-medium">0392895930 / 0200979900</p>
               
               <a 
                 href="https://wa.me/256757474950?text=Hello!" 

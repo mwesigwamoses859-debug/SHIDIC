@@ -8,9 +8,11 @@ import {
   User 
 } from "firebase/auth";
 import { app } from "../lib/firebase"; // Make sure we export app from firebase.ts
+import toast from "react-hot-toast";
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' });
 
 interface AuthContextType {
   user: User | null;
@@ -41,16 +43,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginWithGoogle = async () => {
     try {
       await signInWithPopup(auth, provider);
-    } catch (error) {
+      toast.success("Successfully signed in!");
+    } catch (error: any) {
       console.error("Login failed", error);
+      toast.error(error.message || "Failed to sign in");
     }
   };
 
   const logout = async () => {
     try {
       await signOut(auth);
+      toast.success("Successfully signed out");
     } catch (error) {
       console.error("Logout failed", error);
+      toast.error("Failed to sign out");
     }
   };
 

@@ -8,6 +8,7 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 import { ScrollProgress } from "./components/ScrollProgress";
 import { PageTransition } from "./components/PageTransition";
+import { Toaster } from "react-hot-toast";
 
 // Pages
 import { Home } from "./pages/Home";
@@ -103,6 +104,7 @@ export default function App() {
         <div className="min-h-screen bg-black font-sans selection:bg-[#FFC700] selection:text-black scroll-smooth relative bg-cover bg-center bg-fixed" style={{ backgroundImage: "url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/KAMPALA_CITY.jpg/1280px-KAMPALA_CITY.jpg')" }}>
           <div className="fixed inset-0 bg-black/85 z-0 pointer-events-none"></div>
           <div className="relative z-10 flex flex-col min-h-screen">
+          <Toaster position="top-center" toastOptions={{ duration: 4000, style: { background: '#333', color: '#fff' } }} />
           <ScrollProgress />
           <Navbar />
           <AnimatedRoutes />

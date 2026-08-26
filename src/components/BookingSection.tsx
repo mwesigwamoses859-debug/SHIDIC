@@ -10,6 +10,7 @@ import { TransportHistory } from "./TransportHistory";
 import { LocationInsights } from "./LocationInsights";
 import { BookingTracker } from "./BookingTracker";
 import { BookingReceipt } from "./BookingReceipt";
+import toast from "react-hot-toast";
 
 export function BookingSection() {
   const { t } = useLanguage();
@@ -99,6 +100,15 @@ export function BookingSection() {
       setBookingId(docRef.id);
       setIsSuccess(true);
       setDriverStatus("assigning");
+      
+      toast.success('Booking request received successfully!', {
+        icon: '✅',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
       
       // Simulate driver finding for demo purposes if no driver picks it up, but also listen
       
@@ -315,7 +325,7 @@ export function BookingSection() {
                 </div>
                 <div className="text-white text-center sm:text-left">
                   <h4 className="font-bold text-xl tracking-wider mb-1">{t("book.contact")}</h4>
-                  <p className="text-[#FFC700] font-black text-2xl">+256 757474950</p>
+                  <p className="text-[#FFC700] font-black text-2xl">0757474950</p>
                 </div>
               </div>
             </>

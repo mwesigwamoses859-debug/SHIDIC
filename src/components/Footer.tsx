@@ -16,7 +16,7 @@ export function Footer() {
             </div>
             <div>
               <p className="font-bold text-sm uppercase">{t('footer.call')}</p>
-              <p className="font-black text-xl lg:text-2xl">+256 757474950 / +256 777474950</p>
+              <p className="font-black text-xl lg:text-xl">0757474950 / 0392895930 / 0200979900</p>
             </div>
           </div>
           
